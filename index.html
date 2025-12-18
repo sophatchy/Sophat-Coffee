@@ -84,7 +84,6 @@
             z-index: 10;
         }
 
-        /* Floating Emoji Animation */
         .floating-emoji {
             position: fixed;
             pointer-events: none;
@@ -121,7 +120,6 @@
 
         .aba-logo-text { font-family: 'Roboto', sans-serif; letter-spacing: -1px; }
 
-        /* Social Icon Hover Effects */
         .social-link { transition: all 0.3s; }
         .social-link:hover { transform: translateY(-3px); }
         .hover-fb:hover { color: #1877F2; }
@@ -175,7 +173,7 @@
         </div>
 
         <!-- Header -->
-        <header class="text-center mb-12 max-w-2xl mt-12">
+        <header class="text-center mb-10 max-w-2xl mt-12">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md shadow-sm border border-slate-200 mb-6 animate-float cursor-default select-none">
                 <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
                 <span class="text-sm font-bold text-green-700">ដោះស្រាយបាន ១០០% ទើបទទួលការប៉ាវ</span>
@@ -188,29 +186,49 @@
             </p>
         </header>
 
-        <!-- Menu List -->
-        <main class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-            <!-- Items -->
-            <div onclick="selectItem('hot')" class="treat-card p-6 rounded-3xl cursor-pointer group text-coffee flex flex-col items-center justify-center min-h-[160px]" id="card-hot">
-                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-mug-hot"></i></div>
-                <h3 class="font-bold text-lg">Hot Coffee</h3>
-                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-3 py-1 rounded-full mt-2">$1.50</span>
+        <!-- Menu List (Updated with Descriptions) -->
+        <main class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+            
+            <!-- Hot Coffee -->
+            <div onclick="selectItem('hot')" class="treat-card p-6 rounded-3xl cursor-pointer group text-coffee flex flex-col items-center justify-between min-h-[220px]" id="card-hot">
+                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-mug-hot"></i></div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Hot Coffee</h3>
+                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">ពេលព្រឹក ឬសំណួរបច្ចេកទេសខ្លីៗ។</p>
+                </div>
+                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-3 py-1 rounded-full">$1.50</span>
             </div>
-            <div onclick="selectItem('ice')" class="treat-card p-6 rounded-3xl cursor-pointer group text-ice flex flex-col items-center justify-center min-h-[160px]" id="card-ice">
-                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-glass-water"></i></div>
-                <h3 class="font-bold text-lg">Ice Coffee</h3>
-                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full mt-2">$2.50</span>
+
+            <!-- Ice Coffee -->
+            <div onclick="selectItem('ice')" class="treat-card p-6 rounded-3xl cursor-pointer group text-ice flex flex-col items-center justify-between min-h-[220px]" id="card-ice">
+                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-glass-water"></i></div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Ice Coffee</h3>
+                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">ការងារ ឬពិគ្រោះយោបល់ទូទៅ។</p>
+                </div>
+                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">$2.50</span>
             </div>
-            <div onclick="selectItem('beer')" class="treat-card p-6 rounded-3xl cursor-pointer group text-beer flex flex-col items-center justify-center min-h-[160px]" id="card-beer">
-                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-beer-mug-empty"></i></div>
-                <h3 class="font-bold text-lg">Cold Beer</h3>
-                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full mt-2">$3.00</span>
+
+            <!-- Cold Beer -->
+            <div onclick="selectItem('beer')" class="treat-card p-6 rounded-3xl cursor-pointer group text-beer flex flex-col items-center justify-between min-h-[220px]" id="card-beer">
+                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Cold Beer</h3>
+                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">Bug ឈឺក្បាល ឬនិយាយគ្នាល្ងាចៗ។</p>
+                </div>
+                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">$3.00</span>
             </div>
-            <div onclick="selectItem('pizza')" class="treat-card p-6 rounded-3xl cursor-pointer group text-pizza flex flex-col items-center justify-center min-h-[160px]" id="card-pizza">
-                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-pizza-slice"></i></div>
-                <h3 class="font-bold text-lg">Pizza / Meal</h3>
-                <span class="text-xs font-bold bg-red-100 text-red-800 px-3 py-1 rounded-full mt-2">$10.00</span>
+
+            <!-- Pizza / Meal -->
+            <div onclick="selectItem('pizza')" class="treat-card p-6 rounded-3xl cursor-pointer group text-pizza flex flex-col items-center justify-between min-h-[220px]" id="card-pizza">
+                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-pizza-slice"></i></div>
+                <div class="text-center">
+                    <h3 class="font-bold text-lg">Pizza / Meal</h3>
+                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">Project ធំ ឬជួយដោះស្រាយបន្ទាន់។</p>
+                </div>
+                <span class="text-xs font-bold bg-red-100 text-red-800 px-3 py-1 rounded-full">$10.00</span>
             </div>
+
         </main>
 
         <!-- Payment Section -->
@@ -224,7 +242,7 @@
                             <span class="text-3xl font-black text-aba">ABA</span>
                             <span class="text-3xl font-black text-khqr">KHQR</span>
                         </div>
-                        <p class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-100 px-3 py-1 rounded-full inline-block uppercase tracking-wide">Scan to Pay</p>
+                        <p class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-100 px-3 py-1 rounded-full inline-block uppercase tracking-wide">Scan ឬចុច Link ដើម្បីប៉ាវ</p>
                     </div>
 
                     <div class="flex flex-col items-center justify-center">
@@ -319,11 +337,36 @@
         function selectItem(key) {
             currentSelection = menuItems[key];
             
+            // Theme Transition
             document.body.className = "text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern " + menuItems[key].theme;
             
+            // --- SOUND EFFECTS ---
+            let audioSrc = '';
+            if (key === 'beer') {
+                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-glass-clinking-cheers-2004.mp3'; // Cheers
+            } else if (key === 'hot') {
+                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-pouring-hot-water-2024.mp3'; // Pouring
+            } else if (key === 'ice') {
+                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-ice-cubes-in-glass-1456.mp3'; // Ice
+            }
+
+            if(audioSrc) {
+                const audio = new Audio(audioSrc);
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log("Audio play error (user interaction required first):", e));
+            }
+            // ---------------------
+
             document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
-            document.getElementById(`card-${key}`).classList.add('active');
-            
+            const card = document.getElementById(`card-${key}`);
+            card.classList.add('active');
+            let ringColor = 'ring-slate-400';
+            if(key === 'hot') ringColor = 'ring-orange-500';
+            if(key === 'ice') ringColor = 'ring-sky-500';
+            if(key === 'beer') ringColor = 'ring-amber-500';
+            if(key === 'pizza') ringColor = 'ring-red-500';
+            card.classList.add('ring-2', 'ring-offset-2', ringColor);
+
             document.getElementById('selected-name').innerText = menuItems[key].name;
             document.getElementById('selected-price').innerText = menuItems[key].price;
             document.getElementById('selected-icon').innerHTML = menuItems[key].icon;
@@ -360,7 +403,7 @@
                     title: 'Sophat Solutions',
                     text: 'Check out this awesome page!',
                     url: window.location.href,
-                });
+                }).catch(err => console.log('Share canceled'));
             } else {
                 safeCopyToClipboard(window.location.href, false);
                 showToast("Link Copied!");
