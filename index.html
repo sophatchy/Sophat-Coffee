@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome Icons (New) -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Font: Kantumruy Pro -->
@@ -72,11 +72,6 @@
         body.theme-beer .text-slate-900 { color: #f8fafc; }
         body.theme-beer .text-slate-500 { color: #94a3b8; }
         body.theme-beer .bg-white { background-color: #272a34; border-color: #374151; }
-        body.theme-beer input, body.theme-beer textarea { 
-            background-color: #1f2937; 
-            border-color: #374151; 
-            color: white; 
-        }
         
         /* KHQR Frame Style */
         .khqr-frame {
@@ -84,6 +79,31 @@
             padding: 3px;
             border-radius: 1.5rem;
             box-shadow: 0 10px 30px -10px rgba(0, 95, 127, 0.4);
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
         }
     </style>
 </head>
@@ -103,7 +123,7 @@
         </p>
     </header>
 
-    <!-- Menu List (with New Icons) -->
+    <!-- Menu List -->
     <main class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
         <!-- 1. Hot Coffee -->
         <div onclick="selectItem('hot')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-coffee" id="card-hot">
@@ -154,19 +174,19 @@
         </div>
     </main>
 
-    <!-- Payment Section -->
+    <!-- Payment & Simple Contact Section -->
     <section id="request-section" class="w-full max-w-lg transition-all duration-500 opacity-50 blur-[2px] pointer-events-none">
         
         <div class="khqr-frame relative">
             <div class="bg-white rounded-[1.3rem] p-8 overflow-hidden relative">
                 
-                <!-- ABA Header -->
+                <!-- Header -->
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-black text-aba tracking-tight">ABA<span class="font-light">’</span> PAY</h2>
                     <p class="text-xs text-slate-400">Scan ឬចុច Link ដើម្បីប៉ាវ</p>
                 </div>
 
-                <!-- QR & Info -->
+                <!-- QR Info -->
                 <div class="flex flex-col items-center justify-center">
                     
                     <!-- Selected Item Recap -->
@@ -180,122 +200,123 @@
                         <span id="selected-price" class="font-bold text-sm text-green-600">$$$</span>
                     </div>
 
-                    <!-- QR Code Generated from Link or Image -->
-                    <div class="w-56 h-auto bg-white rounded-xl flex items-center justify-center mb-4 relative overflow-hidden border border-slate-200 shadow-inner p-2">
-                        <!-- កន្លែងដាក់រូបភាព IMG_2321.JPG -->
+                    <!-- QR Code -->
+                    <div class="w-64 h-auto bg-white rounded-xl flex items-center justify-center mb-6 relative overflow-hidden border border-slate-200 shadow-inner p-2">
                         <img src="./IMG_2321.JPG" 
                              onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';"
                              alt="ABA QR Code" 
                              class="w-full h-full object-contain">
                     </div>
 
-                    <!-- Account Info -->
-                    <div class="text-center space-y-0.5 mb-6">
-                        <p class="font-bold text-xl text-slate-900 uppercase tracking-wide">CHY SOPHAT</p>
-                        <div class="flex items-center justify-center gap-2 bg-slate-100 px-3 py-1 rounded-lg inline-flex">
-                            <span class="font-mono text-slate-600 font-bold tracking-widest text-lg">000 111 343</span>
-                            <button onclick="navigator.clipboard.writeText('000111343'); alert('Copied!')" class="text-aba hover:text-blue-600">
-                                <i class="fa-regular fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Direct Pay Link Button -->
-                    <a href="https://pay.ababank.com/oRF8/1kbk3d46" target="_blank" class="w-full py-3 bg-aba text-white font-bold rounded-xl shadow-lg hover:bg-sky-700 transition flex justify-center items-center gap-2 mb-8 animate-pulse">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span>ចុចទីនេះដើម្បីបង់ប្រាក់ (Open App)</span>
-                    </a>
                 </div>
 
-                <!-- Cup Message Form -->
+                <!-- Simple Contact Button (Clean) -->
                 <div class="pt-6 border-t border-slate-100">
-                    <h3 class="text-sm font-bold text-slate-400 mb-3 text-center">ចង់សរសេរពាក្យពេញអ្វីលើកែវកាហ្វេឬអត់?</h3>
-                    <form onsubmit="submitOrder(event)" class="space-y-3">
-                        <textarea required rows="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-aba transition bg-slate-50 text-sm" placeholder="សរសេរសារ ឬបញ្ហារបស់អ្នកនៅទីនេះ..."></textarea>
-                        <button type="submit" class="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition shadow-md text-sm flex justify-center items-center gap-2">
-                            <i class="fa-brands fa-telegram"></i> ផ្ញើទៅ Sophat
-                        </button>
-                    </form>
+                    <button onclick="simpleContactTelegram()" class="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition shadow-lg text-sm flex justify-center items-center gap-2 group">
+                        <i class="fa-brands fa-telegram text-xl group-hover:-translate-y-1 transition-transform"></i>
+                        <span>ទាក់ទងតាម Telegram</span>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Toast Notification Element -->
+    <div id="toast"><i class="fa-solid fa-circle-check text-green-400"></i> សារត្រូវបាន Copy! សូម Paste ចូលក្នុង Chat</div>
+
     <!-- Logic -->
     <script>
-        // Store HTML strings for icons now
+        // Store HTML strings for icons
         const menuItems = {
-            hot: { 
-                name: 'Hot Coffee', 
-                price: '$1 - $3', 
-                icon: '<i class="fa-solid fa-mug-hot"></i>', 
-                theme: 'theme-hot' 
-            },
-            ice: { 
-                name: 'Ice Coffee', 
-                price: '$2.5 - $5', 
-                icon: '<i class="fa-solid fa-glass-water"></i>', 
-                theme: 'theme-ice' 
-            },
-            beer: { 
-                name: 'Cold Beer', 
-                price: '$1.5 - $3', 
-                icon: '<i class="fa-solid fa-beer-mug-empty"></i>', 
-                theme: 'theme-beer' 
-            },
-            pizza: { 
-                name: 'Pizza / Meal', 
-                price: '$10+', 
-                icon: '<i class="fa-solid fa-pizza-slice"></i>', 
-                theme: 'theme-pizza' 
-            }
+            hot: { name: 'Hot Coffee', price: '$1 - $3', icon: '<i class="fa-solid fa-mug-hot"></i>', theme: 'theme-hot' },
+            ice: { name: 'Ice Coffee', price: '$2.5 - $5', icon: '<i class="fa-solid fa-glass-water"></i>', theme: 'theme-ice' },
+            beer: { name: 'Cold Beer', price: '$1.5 - $3', icon: '<i class="fa-solid fa-beer-mug-empty"></i>', theme: 'theme-beer' },
+            pizza: { name: 'Pizza / Meal', price: '$10+', icon: '<i class="fa-solid fa-pizza-slice"></i>', theme: 'theme-pizza' }
         };
 
+        let currentSelection = null;
+
         function selectItem(key) {
-            // 1. Theme Reset
+            currentSelection = menuItems[key];
+            // Theme Update
             document.body.className = "text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500 " + menuItems[key].theme;
-            
             document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
             
-            // 2. Active Card
+            // Activate Card
             const card = document.getElementById(`card-${key}`);
             card.classList.add('active');
-            
             let ringColor = 'ring-slate-400';
             if(key === 'hot') ringColor = 'ring-orange-500';
             if(key === 'ice') ringColor = 'ring-sky-500';
             if(key === 'beer') ringColor = 'ring-amber-500';
             if(key === 'pizza') ringColor = 'ring-red-500';
-            
             card.classList.add('ring-2', 'ring-offset-2', ringColor);
 
-            // 3. Update Text & Icon (Use innerHTML for FontAwesome)
+            // Update Info
             document.getElementById('selected-name').innerText = menuItems[key].name;
             document.getElementById('selected-price').innerText = menuItems[key].price;
-            document.getElementById('selected-icon').innerHTML = menuItems[key].icon; // Changed to innerHTML
+            document.getElementById('selected-icon').innerHTML = menuItems[key].icon;
 
-            // 4. Show Section
+            // Scroll
             const formSection = document.getElementById('request-section');
             formSection.classList.remove('opacity-50', 'blur-[2px]', 'pointer-events-none');
             formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function submitOrder(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
-            btn.classList.add('opacity-75');
-            
+        // --- Safe Copy Logic ---
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                return successful;
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                return false;
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function simpleContactTelegram() {
+            // 1. Construct the message
+            let fullMessage = `👋 សួស្តី Sophat!\n`;
+            if (currentSelection) {
+                fullMessage += `🎁 ខ្ញុំចង់ប៉ាវ: ${currentSelection.name} (${currentSelection.price})`;
+            }
+
+            // 2. Safe Copy
+            if (!navigator.clipboard) {
+                fallbackCopyTextToClipboard(fullMessage);
+                showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
+            } else {
+                 navigator.clipboard.writeText(fullMessage).then(() => {
+                     showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
+                 }).catch(err => {
+                    fallbackCopyTextToClipboard(fullMessage);
+                    showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
+                 });
+            }
+
+            // 3. Open Telegram after delay
             setTimeout(() => {
-                alert("ទទួលបានសារហើយ! \nសូមរក្សាទុក Link បង់ប្រាក់នេះ សម្រាប់ពេលបញ្ហាត្រូវបានដោះស្រាយ។");
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> ជោគជ័យ!';
-                btn.classList.replace('bg-slate-900', 'bg-green-600');
-                if(document.body.classList.contains('theme-beer')) {
-                    btn.classList.replace('bg-green-600', 'bg-green-500');
-                }
-                e.target.reset();
-            }, 1500);
+                window.open('https://t.me/CHYSophat', '_blank');
+            }, 800);
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById("toast");
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> ${text}`;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 4000);
         }
     </script>
 </body>
