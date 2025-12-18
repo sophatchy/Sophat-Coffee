@@ -66,11 +66,16 @@
             background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
         
+        /* Card Styles */
         .treat-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+        .treat-card:active {
+            transform: scale(0.95);
         }
         .treat-card:hover {
             transform: translateY(-8px);
@@ -104,7 +109,6 @@
         body.theme-beer { background-color: #0f172a; color: white; }
         body.theme-pizza { background-color: #fef2f2; }
 
-        /* Dark Mode Adaptability */
         body.theme-beer .text-slate-900 { color: #f8fafc; }
         body.theme-beer .text-slate-500 { color: #94a3b8; }
         body.theme-beer .bg-white { background-color: #1e293b; border-color: #334155; color: white; }
@@ -186,7 +190,7 @@
             </p>
         </header>
 
-        <!-- Menu List (Updated with Descriptions) -->
+        <!-- Menu List -->
         <main class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
             
             <!-- Hot Coffee -->
@@ -259,7 +263,11 @@
                         <!-- QR Code -->
                         <div class="w-60 h-auto bg-white rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden border border-slate-200 shadow-xl p-3 group">
                             <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <img src="./IMG_2321.JPG" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';" alt="ABA QR Code" class="w-full h-full object-contain rounded-xl">
+                            <!-- Static QR Image with API Fallback -->
+                            <img src="./IMG_2321.JPG" 
+                                 onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';" 
+                                 alt="ABA QR Code" 
+                                 class="w-full h-full object-contain rounded-xl">
                         </div>
 
                         <!-- Account Info -->
@@ -325,6 +333,46 @@
 
     <!-- Logic -->
     <script>
+        // --- Web Audio API for Guaranteed Sounds (Self-contained) ---
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTone(freq, type, duration) {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start();
+            
+            // Smooth decay to prevent clicking
+            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + duration);
+            
+            osc.stop(audioContext.currentTime + duration);
+        }
+
+        // 1. Beer "Ting" Sound (High pitch sine wave)
+        function playBeerSound() {
+            playTone(1200, 'sine', 1.5);
+            setTimeout(() => playTone(1600, 'sine', 1), 50);
+        }
+
+        // 2. Coffee "Pouring" (Lower rumble)
+        function playCoffeeSound() {
+            // Simulating liquid with low freq oscillation
+            playTone(150, 'triangle', 0.2);
+            setTimeout(() => playTone(120, 'triangle', 0.2), 100);
+            setTimeout(() => playTone(180, 'triangle', 0.3), 200);
+        }
+
+        // 3. Ice "Rattle" (High pitch square wave)
+        function playIceSound() {
+            playTone(800, 'square', 0.1);
+            setTimeout(() => playTone(900, 'square', 0.1), 100);
+            setTimeout(() => playTone(750, 'square', 0.1), 200);
+        }
+
         const menuItems = {
             hot: { name: 'Hot Coffee', price: '$1.50', icon: '<i class="fa-solid fa-mug-hot"></i>', emoji: '☕', theme: 'theme-hot' },
             ice: { name: 'Ice Coffee', price: '$2.50', icon: '<i class="fa-solid fa-glass-water"></i>', emoji: '🥤', theme: 'theme-ice' },
@@ -335,27 +383,21 @@
         let currentSelection = null;
 
         function selectItem(key) {
+            // Resume Audio Context (Browser Policy Requirement)
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
             currentSelection = menuItems[key];
             
             // Theme Transition
             document.body.className = "text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern " + menuItems[key].theme;
             
-            // --- SOUND EFFECTS ---
-            let audioSrc = '';
-            if (key === 'beer') {
-                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-glass-clinking-cheers-2004.mp3'; // Cheers
-            } else if (key === 'hot') {
-                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-pouring-hot-water-2024.mp3'; // Pouring
-            } else if (key === 'ice') {
-                audioSrc = 'https://assets.mixkit.co/sfx/preview/mixkit-ice-cubes-in-glass-1456.mp3'; // Ice
-            }
-
-            if(audioSrc) {
-                const audio = new Audio(audioSrc);
-                audio.volume = 0.5;
-                audio.play().catch(e => console.log("Audio play error (user interaction required first):", e));
-            }
-            // ---------------------
+            // Play Sounds (Guaranteed Logic)
+            if (key === 'beer') playBeerSound();
+            else if (key === 'hot') playCoffeeSound();
+            else if (key === 'ice') playIceSound();
+            else if (key === 'pizza') playCoffeeSound();
 
             document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
             const card = document.getElementById(`card-${key}`);
