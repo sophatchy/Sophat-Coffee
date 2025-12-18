@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ចង់ប៉ាវខ្ញុំហូបអី? - Sophat Solutions</title>
+    <title>Sophat Solutions - Treat Me a Coffee</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,10 +11,10 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Font: Kantumruy Pro -->
+    <!-- Font: Kantumruy Pro & Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
 
     <!-- Config -->
     <script>
@@ -23,6 +23,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Kantumruy Pro', 'sans-serif'],
+                        logo: ['Roboto', 'sans-serif'],
                     },
                     colors: {
                         coffee: '#78350f',
@@ -30,10 +31,19 @@
                         ice: '#0ea5e9',
                         pizza: '#ef4444',
                         aba: '#005f7f',
-                        khqr: '#e11b22', 
+                        abaCyan: '#00a3da',
+                        khqr: '#E1232E',
                     },
                     animation: {
                         'bounce-slow': 'bounce 3s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -43,13 +53,24 @@
     <style>
         body {
             background-color: #fafafa;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        /* Modern Grid Background Pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        body.theme-beer .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
         
-        /* Card Styles */
         .treat-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
         }
         .treat-card:hover {
             transform: translateY(-8px);
@@ -58,302 +79,343 @@
         .treat-card.active {
             border-color: currentColor;
             background-color: #fff;
-            transform: scale(1.02);
+            transform: scale(1.05);
             box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        /* Floating Emoji Animation */
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+            z-index: 50;
+            font-size: 2rem;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(-150px) scale(1); opacity: 0; }
         }
 
         /* Dynamic Backgrounds */
         body.theme-hot { background-color: #fff7ed; }
         body.theme-ice { background-color: #f0f9ff; }
-        body.theme-beer { background-color: #1a1c23; color: white; }
+        body.theme-beer { background-color: #0f172a; color: white; }
         body.theme-pizza { background-color: #fef2f2; }
 
         /* Dark Mode Adaptability */
         body.theme-beer .text-slate-900 { color: #f8fafc; }
         body.theme-beer .text-slate-500 { color: #94a3b8; }
-        body.theme-beer .bg-white { background-color: #272a34; border-color: #374151; }
+        body.theme-beer .bg-white { background-color: #1e293b; border-color: #334155; color: white; }
+        body.theme-beer .treat-card { background: rgba(30, 41, 59, 0.8); }
+        body.theme-beer footer { border-top-color: #334155; }
         
-        /* KHQR Frame Style */
         .khqr-frame {
-            background: linear-gradient(135deg, #005f7f 0%, #00a3da 100%);
+            background: linear-gradient(135deg, #003D5B 0%, #005F7F 100%);
             padding: 3px;
             border-radius: 1.5rem;
-            box-shadow: 0 10px 30px -10px rgba(0, 95, 127, 0.4);
+            box-shadow: 0 20px 60px -15px rgba(0, 95, 127, 0.4);
         }
 
-        /* Toast Notification */
+        .aba-logo-text { font-family: 'Roboto', sans-serif; letter-spacing: -1px; }
+
+        /* Social Icon Hover Effects */
+        .social-link { transition: all 0.3s; }
+        .social-link:hover { transform: translateY(-3px); }
+        .hover-fb:hover { color: #1877F2; }
+        .hover-tg:hover { color: #229ED9; }
+        .hover-ig:hover { color: #E1306C; }
+        .hover-yt:hover { color: #FF0000; }
+        .hover-tt:hover { color: #000000; }
+        body.theme-beer .hover-tt:hover { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
         #toast {
             visibility: hidden;
             min-width: 250px;
-            background-color: #333;
+            background-color: #1f2937;
             color: #fff;
             text-align: center;
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 50px;
+            padding: 12px 24px;
             position: fixed;
             z-index: 100;
             left: 50%;
             bottom: 30px;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(20px);
             font-size: 14px;
             opacity: 0;
-            transition: opacity 0.5s, bottom 0.5s;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-
         #toast.show {
             visibility: visible;
             opacity: 1;
-            bottom: 50px;
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
-<body class="text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500">
+<body class="text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern">
 
-    <!-- Header -->
-    <header class="text-center mb-10 max-w-2xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-bold mb-4 border border-slate-200" id="status-badge">
-            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            ដោះស្រាយបាន ១០០% ទើបទទួលការប៉ាវ
+    <div id="emoji-container"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-grow flex flex-col items-center py-10 px-4 relative z-10">
+
+        <!-- Top Controls (Share) -->
+        <div class="absolute top-4 right-4">
+            <button onclick="sharePage()" class="w-10 h-10 rounded-full bg-white/60 hover:bg-white shadow-sm transition flex items-center justify-center text-slate-500 hover:text-slate-900 backdrop-blur-sm" title="ចែករំលែក">
+                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            </button>
         </div>
-        <h1 class="text-3xl md:text-5xl font-bold mb-3 leading-tight">
-            ចង់ប៉ាវខ្ញុំហូបអី?
-        </h1>
-        <p class="text-slate-500 text-lg">
-            ជ្រើសរើសរបស់ដែលអ្នកចង់ប៉ាវខាងក្រោម បន្ទាប់មកប្រាប់ខ្ញុំពីបញ្ហារបស់អ្នក។
-        </p>
-    </header>
 
-    <!-- Menu List -->
-    <main class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-        <!-- 1. Hot Coffee -->
-        <div onclick="selectItem('hot')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-coffee" id="card-hot">
-            <div class="flex justify-between items-start mb-4">
-                <span class="text-4xl group-hover:animate-bounce-slow">
-                    <i class="fa-solid fa-mug-hot"></i>
-                </span>
-                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-1 rounded-full">$1 - $3</span>
+        <!-- Header -->
+        <header class="text-center mb-12 max-w-2xl mt-12">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md shadow-sm border border-slate-200 mb-6 animate-float cursor-default select-none">
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-sm font-bold text-green-700">ដោះស្រាយបាន ១០០% ទើបទទួលការប៉ាវ</span>
             </div>
-            <h3 class="font-bold text-lg mb-1">Hot Coffee</h3>
-            <p class="text-xs opacity-70">ពេលព្រឹក ឬសំណួរបច្ចេកទេសខ្លីៗ។</p>
-        </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight">
+                ចង់ប៉ាវខ្ញុំហូបអី?
+            </h1>
+            <p class="text-slate-500 text-lg">
+                ជ្រើសរើសរបស់ដែលអ្នកចង់ប៉ាវខាងក្រោម បន្ទាប់មកប្រាប់ខ្ញុំពីបញ្ហារបស់អ្នក។
+            </p>
+        </header>
 
-        <!-- 2. Ice Coffee -->
-        <div onclick="selectItem('ice')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-ice" id="card-ice">
-            <div class="flex justify-between items-start mb-4">
-                <span class="text-4xl group-hover:animate-bounce-slow">
-                    <i class="fa-solid fa-glass-water"></i>
-                </span>
-                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-2 py-1 rounded-full">$2.5 - $5</span>
+        <!-- Menu List -->
+        <main class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+            <!-- Items -->
+            <div onclick="selectItem('hot')" class="treat-card p-6 rounded-3xl cursor-pointer group text-coffee flex flex-col items-center justify-center min-h-[160px]" id="card-hot">
+                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-mug-hot"></i></div>
+                <h3 class="font-bold text-lg">Hot Coffee</h3>
+                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-3 py-1 rounded-full mt-2">$1.50</span>
             </div>
-            <h3 class="font-bold text-lg mb-1">Ice Coffee</h3>
-            <p class="text-xs opacity-70">ការងារ ឬពិគ្រោះយោបល់ទូទៅ។</p>
-        </div>
-
-        <!-- 3. Beer -->
-        <div onclick="selectItem('beer')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-beer" id="card-beer">
-            <div class="flex justify-between items-start mb-4">
-                <span class="text-4xl group-hover:animate-bounce-slow">
-                    <i class="fa-solid fa-beer-mug-empty"></i>
-                </span>
-                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded-full">$1.5 - $3</span>
+            <div onclick="selectItem('ice')" class="treat-card p-6 rounded-3xl cursor-pointer group text-ice flex flex-col items-center justify-center min-h-[160px]" id="card-ice">
+                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-glass-water"></i></div>
+                <h3 class="font-bold text-lg">Ice Coffee</h3>
+                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-3 py-1 rounded-full mt-2">$2.50</span>
             </div>
-            <h3 class="font-bold text-lg mb-1">Cold Beer</h3>
-            <p class="text-xs opacity-70">Bug ឈឺក្បាល ឬនិយាយគ្នាល្ងាចៗ។</p>
-        </div>
-
-        <!-- 4. Pizza/Meal -->
-        <div onclick="selectItem('pizza')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-pizza" id="card-pizza">
-            <div class="flex justify-between items-start mb-4">
-                <span class="text-4xl group-hover:animate-bounce-slow">
-                    <i class="fa-solid fa-pizza-slice"></i>
-                </span>
-                <span class="text-xs font-bold bg-red-100 text-red-800 px-2 py-1 rounded-full">$10+</span>
+            <div onclick="selectItem('beer')" class="treat-card p-6 rounded-3xl cursor-pointer group text-beer flex flex-col items-center justify-center min-h-[160px]" id="card-beer">
+                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                <h3 class="font-bold text-lg">Cold Beer</h3>
+                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full mt-2">$3.00</span>
             </div>
-            <h3 class="font-bold text-lg mb-1">Pizza / Meal</h3>
-            <p class="text-xs opacity-70">Project ធំ ឬជួយដោះស្រាយបន្ទាន់។</p>
-        </div>
-    </main>
+            <div onclick="selectItem('pizza')" class="treat-card p-6 rounded-3xl cursor-pointer group text-pizza flex flex-col items-center justify-center min-h-[160px]" id="card-pizza">
+                <div class="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-pizza-slice"></i></div>
+                <h3 class="font-bold text-lg">Pizza / Meal</h3>
+                <span class="text-xs font-bold bg-red-100 text-red-800 px-3 py-1 rounded-full mt-2">$10.00</span>
+            </div>
+        </main>
 
-    <!-- Payment & Simple Contact Section -->
-    <section id="request-section" class="w-full max-w-lg transition-all duration-500 opacity-50 blur-[2px] pointer-events-none">
-        
-        <div class="khqr-frame relative">
-            <div class="bg-white rounded-[1.3rem] p-8 overflow-hidden relative">
-                
-                <!-- Header -->
-                <div class="text-center mb-6">
-                    <h2 class="text-2xl font-black text-aba tracking-tight">ABA<span class="font-light">’</span> PAY</h2>
-                    <p class="text-xs text-slate-400">Scan ឬចុច Link ដើម្បីប៉ាវ</p>
-                </div>
-
-                <!-- QR Info -->
-                <div class="flex flex-col items-center justify-center">
+        <!-- Payment Section -->
+        <section id="request-section" class="w-full max-w-md transition-all duration-700 opacity-50 blur-[5px] pointer-events-none pb-12 scale-95">
+            <div class="khqr-frame relative mb-8 transform transition-transform hover:scale-[1.01] duration-300">
+                <div class="bg-white rounded-[1.3rem] p-8 overflow-hidden relative">
                     
-                    <!-- Selected Item Recap -->
-                    <div class="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full mb-6 border border-slate-100">
-                        <span id="selected-icon" class="text-xl text-slate-700">
-                            <!-- Icon will be injected here -->
-                            <i class="fa-solid fa-gift"></i>
-                        </span>
-                        <span id="selected-name" class="font-bold text-sm text-slate-700">សូមជ្រើសរើស</span>
-                        <span class="text-slate-300">|</span>
-                        <span id="selected-price" class="font-bold text-sm text-green-600">$$$</span>
-                    </div>
-
-                    <!-- QR Code -->
-                    <div class="w-64 h-auto bg-white rounded-xl flex items-center justify-center mb-4 relative overflow-hidden border border-slate-200 shadow-inner p-2">
-                        <img src="./IMG_2321.JPG" 
-                             onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';"
-                             alt="ABA QR Code" 
-                             class="w-full h-full object-contain">
-                    </div>
-
-                    <!-- Account Info -->
-                    <div class="text-center space-y-0.5 mb-6">
-                        <p class="font-bold text-xl text-slate-900 uppercase tracking-wide">CHY SOPHAT</p>
-                        <div class="flex items-center justify-center gap-2 bg-slate-100 px-3 py-1 rounded-lg inline-flex group cursor-pointer" onclick="safeCopyToClipboard('000111343')">
-                            <span class="font-mono text-slate-600 font-bold tracking-widest text-lg">000 111 343</span>
-                            <span class="text-aba group-hover:text-blue-600">
-                                <i class="fa-regular fa-copy"></i>
-                            </span>
+                    <!-- Header -->
+                    <div class="text-center mb-8 flex flex-col items-center justify-center">
+                        <div class="flex items-baseline gap-1 aba-logo-text">
+                            <span class="text-3xl font-black text-aba">ABA</span>
+                            <span class="text-3xl font-black text-khqr">KHQR</span>
                         </div>
+                        <p class="text-[10px] text-slate-400 mt-2 font-bold bg-slate-100 px-3 py-1 rounded-full inline-block uppercase tracking-wide">Scan to Pay</p>
                     </div>
 
-                    <!-- Direct Pay Link Button (Primary) -->
-                    <a href="https://pay.ababank.com/oRF8/1kbk3d46" target="_blank" class="w-full py-4 bg-aba text-white font-bold rounded-xl shadow-lg hover:bg-sky-700 transition flex justify-center items-center gap-2 mb-4 animate-pulse">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span>ចុចទីនេះដើម្បីបង់ប្រាក់ (Open App)</span>
-                    </a>
+                    <div class="flex flex-col items-center justify-center">
+                        <!-- Selected Item Badge -->
+                        <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl mb-6 border border-slate-100 shadow-inner w-full justify-center">
+                            <span id="selected-icon" class="text-xl text-slate-700"><i class="fa-solid fa-gift"></i></span>
+                            <div class="text-left leading-tight">
+                                <span id="selected-name" class="font-bold text-xs text-slate-800">Item</span>
+                                <span class="text-slate-300 mx-1">|</span>
+                                <span id="selected-price" class="font-bold text-xs text-green-600">---</span>
+                            </div>
+                        </div>
 
-                </div>
+                        <!-- QR Code -->
+                        <div class="w-60 h-auto bg-white rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden border border-slate-200 shadow-xl p-3 group">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <img src="./IMG_2321.JPG" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';" alt="ABA QR Code" class="w-full h-full object-contain rounded-xl">
+                        </div>
 
-                <!-- Simple Contact Button (Secondary) -->
-                <div class="pt-4 border-t border-slate-100 text-center">
-                    <p class="text-xs text-slate-400 mb-3">បង់រួចហើយ? សូមទាក់ទងមកខ្ញុំ</p>
-                    <button onclick="simpleContactTelegram()" class="w-full py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition text-sm flex justify-center items-center gap-2 group">
-                        <i class="fa-brands fa-telegram text-xl text-blue-500 group-hover:-translate-y-1 transition-transform"></i>
-                        <span>ទាក់ទងតាម Telegram</span>
-                    </button>
+                        <!-- Account Info -->
+                        <div class="text-center mb-6 w-full">
+                             <p class="font-bold text-slate-900 text-lg tracking-wide">CHY SOPHAT</p>
+                             <div class="flex items-center justify-center gap-2 bg-slate-100/80 px-4 py-2 rounded-lg group cursor-pointer mt-2 hover:bg-aba hover:text-white transition-all duration-300 w-full" onclick="safeCopyToClipboard('000111343', true)">
+                                <span class="font-mono font-bold tracking-widest text-base">000 111 343</span>
+                                <i class="fa-regular fa-copy opacity-60"></i>
+                            </div>
+                        </div>
+
+                         <!-- Direct Pay Link -->
+                         <a href="https://pay.ababank.com/oRF8/1kbk3d46" target="_blank" class="w-full py-3.5 bg-aba text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:bg-sky-600 hover:shadow-sky-500/40 hover:-translate-y-1 transition-all duration-300 flex justify-center items-center gap-3 text-sm">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span>ចុចទីនេះដើម្បីបង់ប្រាក់ (Open App)</span>
+                        </a>
+                    </div>
                 </div>
             </div>
+
+            <!-- Contact Button -->
+            <div class="bg-white/40 backdrop-blur-md border border-white/50 rounded-3xl p-6 text-center shadow-sm">
+                <h3 class="font-bold text-base mb-1">ជំហានបន្ទាប់ (Next Step)</h3>
+                <p class="text-xs text-slate-500 mb-4">បង់រួចហើយ ឬមានចម្ងល់បន្ថែម?</p>
+                <button onclick="simpleContactTelegram()" class="w-full py-3 bg-white border-2 border-slate-900 text-slate-900 font-bold rounded-xl hover:bg-slate-900 hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm text-sm flex justify-center items-center gap-2 group">
+                    <i class="fa-brands fa-telegram text-xl text-blue-500 group-hover:text-white transition-colors"></i>
+                    <span>ទាក់ទងមកខ្ញុំតាម Telegram</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 relative z-10">
+        <div class="max-w-md mx-auto px-6 text-center">
+            <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-8"></div>
+            
+            <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Follow Me On</h4>
+            
+            <!-- Social Icons Grid -->
+            <div class="flex justify-center gap-6 mb-8 text-2xl text-slate-400">
+                <a href="https://fb.com/SophatCHY" target="_blank" class="social-link hover-fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://t.me/SophatCHY" target="_blank" class="social-link hover-tg" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="https://www.instagram.com/sophatchy" target="_blank" class="social-link hover-ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@sophatchy" target="_blank" class="social-link hover-tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://youtube.com/sophatchy" target="_blank" class="social-link hover-yt" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+
+            <div class="text-xs text-slate-400 font-mono opacity-50">
+                Designed with តែងសេចក្ដី by Sophat CHY
+            </div>
         </div>
-    </section>
+    </footer>
 
-    <!-- Toast Notification Element -->
-    <div id="toast"><i class="fa-solid fa-circle-check text-green-400"></i> បាន Copy ទុកហើយ!</div>
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check text-green-400 text-xl"></i> 
+        <span class="font-bold">បាន Copy ទុកហើយ!</span>
+    </div>
 
-    <!-- Buy Me A Coffee Widget -->
+    <!-- BMC Widget -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="sophatchy" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
     <!-- Logic -->
     <script>
-        // Store HTML strings for icons
         const menuItems = {
-            hot: { name: 'Hot Coffee', price: '$1 - $3', icon: '<i class="fa-solid fa-mug-hot"></i>', theme: 'theme-hot' },
-            ice: { name: 'Ice Coffee', price: '$2.5 - $5', icon: '<i class="fa-solid fa-glass-water"></i>', theme: 'theme-ice' },
-            beer: { name: 'Cold Beer', price: '$1.5 - $3', icon: '<i class="fa-solid fa-beer-mug-empty"></i>', theme: 'theme-beer' },
-            pizza: { name: 'Pizza / Meal', price: '$10+', icon: '<i class="fa-solid fa-pizza-slice"></i>', theme: 'theme-pizza' }
+            hot: { name: 'Hot Coffee', price: '$1.50', icon: '<i class="fa-solid fa-mug-hot"></i>', emoji: '☕', theme: 'theme-hot' },
+            ice: { name: 'Ice Coffee', price: '$2.50', icon: '<i class="fa-solid fa-glass-water"></i>', emoji: '🥤', theme: 'theme-ice' },
+            beer: { name: 'Cold Beer', price: '$3.00', icon: '<i class="fa-solid fa-beer-mug-empty"></i>', emoji: '🍺', theme: 'theme-beer' },
+            pizza: { name: 'Pizza / Meal', price: '$10.00', icon: '<i class="fa-solid fa-pizza-slice"></i>', emoji: '🍕', theme: 'theme-pizza' }
         };
 
         let currentSelection = null;
 
         function selectItem(key) {
             currentSelection = menuItems[key];
-            // Theme Update
-            document.body.className = "text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500 " + menuItems[key].theme;
-            document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
             
-            // Activate Card
-            const card = document.getElementById(`card-${key}`);
-            card.classList.add('active');
-            let ringColor = 'ring-slate-400';
-            if(key === 'hot') ringColor = 'ring-orange-500';
-            if(key === 'ice') ringColor = 'ring-sky-500';
-            if(key === 'beer') ringColor = 'ring-amber-500';
-            if(key === 'pizza') ringColor = 'ring-red-500';
-            card.classList.add('ring-2', 'ring-offset-2', ringColor);
-
-            // Update Info
+            document.body.className = "text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern " + menuItems[key].theme;
+            
+            document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
+            document.getElementById(`card-${key}`).classList.add('active');
+            
             document.getElementById('selected-name').innerText = menuItems[key].name;
             document.getElementById('selected-price').innerText = menuItems[key].price;
             document.getElementById('selected-icon').innerHTML = menuItems[key].icon;
 
-            // Scroll
             const formSection = document.getElementById('request-section');
-            formSection.classList.remove('opacity-50', 'blur-[2px]', 'pointer-events-none');
+            formSection.classList.remove('opacity-50', 'blur-[5px]', 'pointer-events-none', 'scale-95');
             formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            triggerFloatingEmojis(menuItems[key].emoji);
         }
 
-        // --- Safe Copy Logic ---
+        function triggerFloatingEmojis(icon) {
+            const container = document.getElementById('emoji-container');
+            for(let i=0; i<8; i++) {
+                const el = document.createElement('div');
+                el.innerText = icon;
+                el.className = 'floating-emoji';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.bottom = '-50px';
+                el.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                container.appendChild(el);
+                setTimeout(() => el.remove(), 3000);
+            }
+        }
+
+        function triggerConfetti() {
+            triggerFloatingEmojis('🎉');
+            triggerFloatingEmojis('💸');
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Sophat Solutions',
+                    text: 'Check out this awesome page!',
+                    url: window.location.href,
+                });
+            } else {
+                safeCopyToClipboard(window.location.href, false);
+                showToast("Link Copied!");
+            }
+        }
+
+        function simpleContactTelegram() {
+            let fullMessage = `👋 សួស្តី Sophat!\n`;
+            if (currentSelection) {
+                fullMessage += `🎁 ខ្ញុំបានប៉ាវ: ${currentSelection.name} (${currentSelection.price})`;
+            }
+            if (!navigator.clipboard) {
+                fallbackCopyTextToClipboard(fullMessage);
+                showToast("បាន Copy សារទុកហើយ!");
+            } else {
+                 navigator.clipboard.writeText(fullMessage).then(() => {
+                     showToast("បាន Copy សារទុកហើយ!");
+                 }).catch(err => {
+                    fallbackCopyTextToClipboard(fullMessage);
+                    showToast("បាន Copy សារទុកហើយ!");
+                 });
+            }
+            setTimeout(() => { window.open('https://t.me/SophatCHY', '_blank'); }, 800);
+        }
+
         function fallbackCopyTextToClipboard(text) {
             var textArea = document.createElement("textarea");
             textArea.value = text;
-            textArea.style.top = "0";
-            textArea.style.left = "0";
             textArea.style.position = "fixed";
             textArea.style.opacity = "0";
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-
-            try {
-                var successful = document.execCommand('copy');
-                return successful;
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-                return false;
-            } finally {
-                document.body.removeChild(textArea);
-            }
+            try { document.execCommand('copy'); } catch (err) {}
+            document.body.removeChild(textArea);
         }
 
-        function safeCopyToClipboard(text) {
+        function safeCopyToClipboard(text, isConfetti) {
+            if (isConfetti) triggerConfetti();
             if (!navigator.clipboard) {
-                if (fallbackCopyTextToClipboard(text)) {
-                     showToast("បាន Copy ទុកហើយ!");
-                }
+                if (fallbackCopyTextToClipboard(text)) showToast("បាន Copy ទុកហើយ!");
                 return;
             }
             navigator.clipboard.writeText(text).then(function() {
                 showToast("បាន Copy ទុកហើយ!");
             }, function(err) {
-                if (fallbackCopyTextToClipboard(text)) {
-                     showToast("បាន Copy ទុកហើយ!");
-                }
+                if (fallbackCopyTextToClipboard(text)) showToast("បាន Copy ទុកហើយ!");
             });
-        }
-
-        function simpleContactTelegram() {
-            // 1. Construct the message
-            let fullMessage = `👋 សួស្តី Sophat!\n`;
-            if (currentSelection) {
-                fullMessage += `🎁 ខ្ញុំចង់ប៉ាវ: ${currentSelection.name} (${currentSelection.price})`;
-            }
-
-            // 2. Safe Copy
-            if (!navigator.clipboard) {
-                fallbackCopyTextToClipboard(fullMessage);
-                showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
-            } else {
-                 navigator.clipboard.writeText(fullMessage).then(() => {
-                     showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
-                 }).catch(err => {
-                    fallbackCopyTextToClipboard(fullMessage);
-                    showToast("បាន Copy សារទុកហើយ! សូម Paste ចូលក្នុង Chat");
-                 });
-            }
-
-            // 3. Open Telegram after delay
-            setTimeout(() => {
-                window.open('https://t.me/CHYSophat', '_blank');
-            }, 800);
         }
 
         function showToast(text) {
             const toast = document.getElementById("toast");
-            toast.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> ${text}`;
+            toast.querySelector('span').innerText = text;
             toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 4000);
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
     </script>
 </body>
