@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="kh" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ចង់ប៉ាវខ្ញុំហូបអី? - Sophat Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons (New) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Font: Kantumruy Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kantumruy Pro', 'sans-serif'],
+                    },
+                    colors: {
+                        coffee: '#78350f',
+                        beer: '#f59e0b',
+                        ice: '#0ea5e9',
+                        pizza: '#ef4444',
+                        aba: '#005f7f',
+                        khqr: '#e11b22', 
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fafafa;
+            transition: background-color 0.5s ease;
+        }
+        
+        /* Card Styles */
+        .treat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+        .treat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .treat-card.active {
+            border-color: currentColor;
+            background-color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+        }
+
+        /* Dynamic Backgrounds */
+        body.theme-hot { background-color: #fff7ed; }
+        body.theme-ice { background-color: #f0f9ff; }
+        body.theme-beer { background-color: #1a1c23; color: white; }
+        body.theme-pizza { background-color: #fef2f2; }
+
+        /* Dark Mode Adaptability */
+        body.theme-beer .text-slate-900 { color: #f8fafc; }
+        body.theme-beer .text-slate-500 { color: #94a3b8; }
+        body.theme-beer .bg-white { background-color: #272a34; border-color: #374151; }
+        body.theme-beer input, body.theme-beer textarea { 
+            background-color: #1f2937; 
+            border-color: #374151; 
+            color: white; 
+        }
+        
+        /* KHQR Frame Style */
+        .khqr-frame {
+            background: linear-gradient(135deg, #005f7f 0%, #00a3da 100%);
+            padding: 3px;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 95, 127, 0.4);
+        }
+    </style>
+</head>
+<body class="text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500">
+
+    <!-- Header -->
+    <header class="text-center mb-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-bold mb-4 border border-slate-200" id="status-badge">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            ដោះស្រាយបាន ១០០% ទើបទទួលការប៉ាវ
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3 leading-tight">
+            ចង់ប៉ាវខ្ញុំហូបអី?
+        </h1>
+        <p class="text-slate-500 text-lg">
+            ជ្រើសរើសរបស់ដែលអ្នកចង់ប៉ាវខាងក្រោម បន្ទាប់មកប្រាប់ខ្ញុំពីបញ្ហារបស់អ្នក។
+        </p>
+    </header>
+
+    <!-- Menu List (with New Icons) -->
+    <main class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <!-- 1. Hot Coffee -->
+        <div onclick="selectItem('hot')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-coffee" id="card-hot">
+            <div class="flex justify-between items-start mb-4">
+                <span class="text-4xl group-hover:animate-bounce-slow">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </span>
+                <span class="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-1 rounded-full">$1 - $3</span>
+            </div>
+            <h3 class="font-bold text-lg mb-1">Hot Coffee</h3>
+            <p class="text-xs opacity-70">ពេលព្រឹក ឬសំណួរបច្ចេកទេសខ្លីៗ។</p>
+        </div>
+
+        <!-- 2. Ice Coffee -->
+        <div onclick="selectItem('ice')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-ice" id="card-ice">
+            <div class="flex justify-between items-start mb-4">
+                <span class="text-4xl group-hover:animate-bounce-slow">
+                    <i class="fa-solid fa-glass-water"></i>
+                </span>
+                <span class="text-xs font-bold bg-sky-100 text-sky-800 px-2 py-1 rounded-full">$2.5 - $5</span>
+            </div>
+            <h3 class="font-bold text-lg mb-1">Ice Coffee</h3>
+            <p class="text-xs opacity-70">ការងារ ឬពិគ្រោះយោបល់ទូទៅ។</p>
+        </div>
+
+        <!-- 3. Beer -->
+        <div onclick="selectItem('beer')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-beer" id="card-beer">
+            <div class="flex justify-between items-start mb-4">
+                <span class="text-4xl group-hover:animate-bounce-slow">
+                    <i class="fa-solid fa-beer-mug-empty"></i>
+                </span>
+                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded-full">$1.5 - $3</span>
+            </div>
+            <h3 class="font-bold text-lg mb-1">Cold Beer</h3>
+            <p class="text-xs opacity-70">Bug ឈឺក្បាល ឬនិយាយគ្នាល្ងាចៗ។</p>
+        </div>
+
+        <!-- 4. Pizza/Meal -->
+        <div onclick="selectItem('pizza')" class="treat-card bg-white p-5 rounded-2xl cursor-pointer shadow-sm group text-pizza" id="card-pizza">
+            <div class="flex justify-between items-start mb-4">
+                <span class="text-4xl group-hover:animate-bounce-slow">
+                    <i class="fa-solid fa-pizza-slice"></i>
+                </span>
+                <span class="text-xs font-bold bg-red-100 text-red-800 px-2 py-1 rounded-full">$10+</span>
+            </div>
+            <h3 class="font-bold text-lg mb-1">Pizza / Meal</h3>
+            <p class="text-xs opacity-70">Project ធំ ឬជួយដោះស្រាយបន្ទាន់។</p>
+        </div>
+    </main>
+
+    <!-- Payment Section -->
+    <section id="request-section" class="w-full max-w-lg transition-all duration-500 opacity-50 blur-[2px] pointer-events-none">
+        
+        <div class="khqr-frame relative">
+            <div class="bg-white rounded-[1.3rem] p-8 overflow-hidden relative">
+                
+                <!-- ABA Header -->
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-black text-aba tracking-tight">ABA<span class="font-light">’</span> PAY</h2>
+                    <p class="text-xs text-slate-400">Scan ឬចុច Link ដើម្បីប៉ាវ</p>
+                </div>
+
+                <!-- QR & Info -->
+                <div class="flex flex-col items-center justify-center">
+                    
+                    <!-- Selected Item Recap -->
+                    <div class="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full mb-6 border border-slate-100">
+                        <span id="selected-icon" class="text-xl text-slate-700">
+                            <!-- Icon will be injected here -->
+                            <i class="fa-solid fa-gift"></i>
+                        </span>
+                        <span id="selected-name" class="font-bold text-sm text-slate-700">សូមជ្រើសរើស</span>
+                        <span class="text-slate-300">|</span>
+                        <span id="selected-price" class="font-bold text-sm text-green-600">$$$</span>
+                    </div>
+
+                    <!-- QR Code Generated from Link or Image -->
+                    <div class="w-56 h-auto bg-white rounded-xl flex items-center justify-center mb-4 relative overflow-hidden border border-slate-200 shadow-inner p-2">
+                        <!-- កន្លែងដាក់រូបភាព IMG_2321.JPG -->
+                        <img src="./IMG_2321.JPG" 
+                             onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://pay.ababank.com/oRF8/1kbk3d46&color=000000';"
+                             alt="ABA QR Code" 
+                             class="w-full h-full object-contain">
+                    </div>
+
+                    <!-- Account Info -->
+                    <div class="text-center space-y-0.5 mb-6">
+                        <p class="font-bold text-xl text-slate-900 uppercase tracking-wide">CHY SOPHAT</p>
+                        <div class="flex items-center justify-center gap-2 bg-slate-100 px-3 py-1 rounded-lg inline-flex">
+                            <span class="font-mono text-slate-600 font-bold tracking-widest text-lg">000 111 343</span>
+                            <button onclick="navigator.clipboard.writeText('000111343'); alert('Copied!')" class="text-aba hover:text-blue-600">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Direct Pay Link Button -->
+                    <a href="https://pay.ababank.com/oRF8/1kbk3d46" target="_blank" class="w-full py-3 bg-aba text-white font-bold rounded-xl shadow-lg hover:bg-sky-700 transition flex justify-center items-center gap-2 mb-8 animate-pulse">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>ចុចទីនេះដើម្បីបង់ប្រាក់ (Open App)</span>
+                    </a>
+                </div>
+
+                <!-- Cup Message Form -->
+                <div class="pt-6 border-t border-slate-100">
+                    <h3 class="text-sm font-bold text-slate-400 mb-3 text-center">ចង់សរសេរពាក្យពេញអ្វីលើកែវកាហ្វេឬអត់?</h3>
+                    <form onsubmit="submitOrder(event)" class="space-y-3">
+                        <textarea required rows="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:ring-2 focus:ring-aba transition bg-slate-50 text-sm" placeholder="សរសេរសារ ឬបញ្ហារបស់អ្នកនៅទីនេះ..."></textarea>
+                        <button type="submit" class="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition shadow-md text-sm flex justify-center items-center gap-2">
+                            <i class="fa-brands fa-telegram"></i> ផ្ញើទៅ Sophat
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logic -->
+    <script>
+        // Store HTML strings for icons now
+        const menuItems = {
+            hot: { 
+                name: 'Hot Coffee', 
+                price: '$1 - $3', 
+                icon: '<i class="fa-solid fa-mug-hot"></i>', 
+                theme: 'theme-hot' 
+            },
+            ice: { 
+                name: 'Ice Coffee', 
+                price: '$2.5 - $5', 
+                icon: '<i class="fa-solid fa-glass-water"></i>', 
+                theme: 'theme-ice' 
+            },
+            beer: { 
+                name: 'Cold Beer', 
+                price: '$1.5 - $3', 
+                icon: '<i class="fa-solid fa-beer-mug-empty"></i>', 
+                theme: 'theme-beer' 
+            },
+            pizza: { 
+                name: 'Pizza / Meal', 
+                price: '$10+', 
+                icon: '<i class="fa-solid fa-pizza-slice"></i>', 
+                theme: 'theme-pizza' 
+            }
+        };
+
+        function selectItem(key) {
+            // 1. Theme Reset
+            document.body.className = "text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500 " + menuItems[key].theme;
+            
+            document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
+            
+            // 2. Active Card
+            const card = document.getElementById(`card-${key}`);
+            card.classList.add('active');
+            
+            let ringColor = 'ring-slate-400';
+            if(key === 'hot') ringColor = 'ring-orange-500';
+            if(key === 'ice') ringColor = 'ring-sky-500';
+            if(key === 'beer') ringColor = 'ring-amber-500';
+            if(key === 'pizza') ringColor = 'ring-red-500';
+            
+            card.classList.add('ring-2', 'ring-offset-2', ringColor);
+
+            // 3. Update Text & Icon (Use innerHTML for FontAwesome)
+            document.getElementById('selected-name').innerText = menuItems[key].name;
+            document.getElementById('selected-price').innerText = menuItems[key].price;
+            document.getElementById('selected-icon').innerHTML = menuItems[key].icon; // Changed to innerHTML
+
+            // 4. Show Section
+            const formSection = document.getElementById('request-section');
+            formSection.classList.remove('opacity-50', 'blur-[2px]', 'pointer-events-none');
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
+            btn.classList.add('opacity-75');
+            
+            setTimeout(() => {
+                alert("ទទួលបានសារហើយ! \nសូមរក្សាទុក Link បង់ប្រាក់នេះ សម្រាប់ពេលបញ្ហាត្រូវបានដោះស្រាយ។");
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> ជោគជ័យ!';
+                btn.classList.replace('bg-slate-900', 'bg-green-600');
+                if(document.body.classList.contains('theme-beer')) {
+                    btn.classList.replace('bg-green-600', 'bg-green-500');
+                }
+                e.target.reset();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
