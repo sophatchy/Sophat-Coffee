@@ -37,6 +37,7 @@
                     animation: {
                         'bounce-slow': 'bounce 3s infinite',
                         'float': 'float 3s ease-in-out infinite',
+                        'spin-slow': 'spin 12s linear infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
@@ -57,6 +58,7 @@
             overflow-x: hidden;
         }
 
+        /* Modern Grid Background Pattern */
         .bg-grid-pattern {
             background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 24px 24px;
@@ -72,7 +74,9 @@
             backdrop-filter: blur(10px);
             cursor: pointer;
         }
-        .treat-card:active { transform: scale(0.95); }
+        .treat-card:active {
+            transform: scale(0.95);
+        }
         .treat-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -185,14 +189,14 @@
                 ជ្រើសរើសរបស់ដែលអ្នកចង់ប៉ាវខាងក្រោម បន្ទាប់មកប្រាប់ខ្ញុំពីបញ្ហារបស់អ្នក។
             </p>
 
-            <!-- NEW: DISCLAIMER BANNER -->
+            <!-- NEW: DISCLAIMER BANNER (Updated Text) -->
             <div class="bg-blue-50/80 backdrop-blur-sm border border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3 max-w-lg mx-auto shadow-sm animate-pulse-slow">
                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl flex-shrink-0">
                     <i class="fa-solid fa-heart"></i>
                 </div>
                 <div class="text-center sm:text-left">
-                    <p class="text-sm font-bold text-blue-900">អោយប៉ុន្មានស្រេចចិត្ត!</p>
-                    <p class="text-xs text-blue-700 mt-0.5">តម្លៃខាងក្រោមគ្រាន់តែជាការឧទាហរណ៍។ លោកអ្នកអាចកែប្រែចំនួនទឹកប្រាក់តាមសទ្ធានៅក្នុង App ធនាគារ។</p>
+                    <p class="text-sm font-bold text-blue-900">ប៉ាវប៉ុន្មានស្រេចចិត្ត!</p>
+                    <p class="text-xs text-blue-700 mt-0.5">ការប៉ាវរបស់អ្នកជាទឹកចិត្តទៅហើយ។</p>
                 </div>
             </div>
         </header>
@@ -284,7 +288,7 @@
                                 <span class="font-mono font-bold tracking-widest text-base">000 111 343</span>
                                 <i class="fa-regular fa-copy opacity-60"></i>
                             </div>
-                            <!-- Added small text for flexibility -->
+                            <!-- Disclaimer small text -->
                             <p class="text-[10px] text-slate-400 mt-2">ចំនួនទឹកប្រាក់អាចកែប្រែបាន</p>
                         </div>
 
