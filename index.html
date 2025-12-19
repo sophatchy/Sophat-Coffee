@@ -29,12 +29,7 @@
                         coffee: '#78350f',
                         beer: '#f59e0b',
                         ice: '#0ea5e9',
-                        pizza: '#ef4444',
-                        steak: '#7f1d1d',
-                        salmon: '#fb7185',
                         chicken: '#d97706',
-                        bbq: '#c2410c',    /* Orange 700 */
-                        lobster: '#be123c', /* Rose 700 */
                         aba: '#005f7f',
                         abaCyan: '#00a3da',
                         khqr: '#E1232E',
@@ -42,7 +37,7 @@
                     animation: {
                         'bounce-slow': 'bounce 3s infinite',
                         'float': 'float 3s ease-in-out infinite',
-                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -62,12 +57,11 @@
             overflow-x: hidden;
         }
 
-        /* Modern Grid Background Pattern */
         .bg-grid-pattern {
             background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 24px 24px;
         }
-        body.theme-beer .bg-grid-pattern, body.theme-steak .bg-grid-pattern, body.theme-bbq .bg-grid-pattern {
+        body.theme-beer .bg-grid-pattern {
             background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
         
@@ -78,9 +72,7 @@
             backdrop-filter: blur(10px);
             cursor: pointer;
         }
-        .treat-card:active {
-            transform: scale(0.95);
-        }
+        .treat-card:active { transform: scale(0.95); }
         .treat-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -111,19 +103,13 @@
         body.theme-hot { background-color: #fff7ed; }
         body.theme-ice { background-color: #f0f9ff; }
         body.theme-beer { background-color: #0f172a; color: white; }
-        body.theme-pizza { background-color: #fef2f2; }
-        body.theme-steak { background-color: #2a0a0a; color: white; }
-        body.theme-salmon { background-color: #fff1f2; }
         body.theme-chicken { background-color: #fffbeb; }
-        body.theme-bbq { background-color: #431407; color: white; }
-        body.theme-lobster { background-color: #881337; color: white; }
 
-        /* Dark Mode Adaptability */
-        .dark-mode-text .text-slate-900 { color: #f8fafc; }
-        .dark-mode-text .text-slate-500 { color: #94a3b8; }
-        .dark-mode-text .bg-white { background-color: #1e293b; border-color: #334155; color: white; }
-        .dark-mode-text .treat-card { background: rgba(30, 41, 59, 0.8); border-color: transparent; }
-        .dark-mode-text footer { border-top-color: #334155; }
+        body.theme-beer .text-slate-900 { color: #f8fafc; }
+        body.theme-beer .text-slate-500 { color: #94a3b8; }
+        body.theme-beer .bg-white { background-color: #1e293b; border-color: #334155; color: white; }
+        body.theme-beer .treat-card { background: rgba(30, 41, 59, 0.8); }
+        body.theme-beer footer { border-top-color: #334155; }
         
         .khqr-frame {
             background: linear-gradient(135deg, #003D5B 0%, #005F7F 100%);
@@ -141,7 +127,7 @@
         .hover-ig:hover { color: #E1306C; }
         .hover-yt:hover { color: #FF0000; }
         .hover-tt:hover { color: #000000; }
-        .dark-mode-text .hover-tt:hover { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        body.theme-beer .hover-tt:hover { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
         #toast {
             visibility: hidden;
@@ -187,7 +173,7 @@
         </div>
 
         <!-- Header -->
-        <header class="text-center mb-10 max-w-2xl mt-12">
+        <header class="text-center mb-8 max-w-2xl mt-12">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md shadow-sm border border-slate-200 mb-6 animate-float cursor-default select-none">
                 <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
                 <span class="text-sm font-bold text-green-700">ដោះស្រាយបាន ១០០% ទើបទទួលការប៉ាវ</span>
@@ -195,13 +181,24 @@
             <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight">
                 ចង់ប៉ាវខ្ញុំហូបអី?
             </h1>
-            <p class="text-slate-500 text-lg">
+            <p class="text-slate-500 text-lg mb-6">
                 ជ្រើសរើសរបស់ដែលអ្នកចង់ប៉ាវខាងក្រោម បន្ទាប់មកប្រាប់ខ្ញុំពីបញ្ហារបស់អ្នក។
             </p>
+
+            <!-- NEW: DISCLAIMER BANNER -->
+            <div class="bg-blue-50/80 backdrop-blur-sm border border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3 max-w-lg mx-auto shadow-sm animate-pulse-slow">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl flex-shrink-0">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <div class="text-center sm:text-left">
+                    <p class="text-sm font-bold text-blue-900">អោយប៉ុន្មានស្រេចចិត្ត!</p>
+                    <p class="text-xs text-blue-700 mt-0.5">តម្លៃខាងក្រោមគ្រាន់តែជាការឧទាហរណ៍។ លោកអ្នកអាចកែប្រែចំនួនទឹកប្រាក់តាមសទ្ធានៅក្នុង App ធនាគារ។</p>
+                </div>
+            </div>
         </header>
 
-        <!-- Menu List (8 Items) -->
-        <main class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <!-- Menu List (4 Items) -->
+        <main class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
             
             <!-- Hot Coffee -->
             <div onclick="selectItem('hot')" class="treat-card p-6 rounded-3xl cursor-pointer group text-coffee flex flex-col items-center justify-between min-h-[220px]" id="card-hot">
@@ -241,56 +238,6 @@
                     <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">សម្រាប់ជំនួយពិសេស និងរហ័ស។</p>
                 </div>
                 <span class="text-xs font-bold bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">$8.00</span>
-            </div>
-
-            <!-- Pizza -->
-            <div onclick="selectItem('pizza')" class="treat-card p-6 rounded-3xl cursor-pointer group text-pizza flex flex-col items-center justify-between min-h-[220px]" id="card-pizza">
-                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-pizza-slice"></i></div>
-                <div class="text-center">
-                    <h3 class="font-bold text-lg">Pizza / Meal</h3>
-                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">Project ធំ ឬជួយដោះស្រាយបន្ទាន់។</p>
-                </div>
-                <span class="text-xs font-bold bg-red-100 text-red-800 px-3 py-1 rounded-full">$10.00</span>
-            </div>
-
-            <!-- Salmon -->
-            <div onclick="selectItem('salmon')" class="treat-card p-6 rounded-3xl cursor-pointer group text-salmon flex flex-col items-center justify-between min-h-[220px]" id="card-salmon">
-                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-fish"></i></div>
-                <div class="text-center">
-                    <h3 class="font-bold text-lg">Salmon</h3>
-                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">សម្រាប់គំនិតច្នៃប្រឌិត និងយុទ្ធសាស្ត្រ។</p>
-                </div>
-                <span class="text-xs font-bold bg-rose-100 text-rose-800 px-3 py-1 rounded-full">$12.00</span>
-            </div>
-
-            <!-- Beef Steak -->
-            <div onclick="selectItem('steak')" class="treat-card p-6 rounded-3xl cursor-pointer group text-steak flex flex-col items-center justify-between min-h-[220px]" id="card-steak">
-                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-utensils"></i></div>
-                <div class="text-center">
-                    <h3 class="font-bold text-lg">Beef Steak</h3>
-                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">ការងារធំ Full-Stack ឬ System។</p>
-                </div>
-                <span class="text-xs font-bold bg-red-100 text-red-900 px-3 py-1 rounded-full">$15.00</span>
-            </div>
-
-            <!-- BBQ Party ($50) -->
-            <div onclick="selectItem('bbq')" class="treat-card p-6 rounded-3xl cursor-pointer group text-bbq flex flex-col items-center justify-between min-h-[220px]" id="card-bbq">
-                <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300"><i class="fa-solid fa-fire-burner"></i></div>
-                <div class="text-center">
-                    <h3 class="font-bold text-lg">BBQ Party</h3>
-                    <p class="text-xs opacity-70 mt-1 mb-3 leading-relaxed">ជប់លៀងក្រុមការងារ ឬអបអរជោគជ័យ។</p>
-                </div>
-                <span class="text-xs font-bold bg-orange-200 text-orange-900 px-3 py-1 rounded-full">$50.00</span>
-            </div>
-
-            <!-- King Lobster ($100) -->
-            <div onclick="selectItem('lobster')" class="treat-card p-6 rounded-3xl cursor-pointer group text-lobster flex flex-col items-center justify-between min-h-[220px] col-span-1 sm:col-span-2 lg:col-span-4" id="card-lobster">
-                <div class="text-5xl mb-2 group-hover:scale-125 transition-transform duration-300 animate-bounce-slow"><i class="fa-solid fa-shrimp"></i></div>
-                <div class="text-center">
-                    <h3 class="font-bold text-2xl">King Lobster</h3>
-                    <p class="text-sm opacity-80 mt-1 mb-3 leading-relaxed">សម្រាប់មហាសេដ្ឋីចិត្តល្អ ឬគម្រោងកម្រិត Enterprise។</p>
-                </div>
-                <span class="text-sm font-bold bg-rose-200 text-rose-900 px-6 py-1.5 rounded-full">$100.00</span>
             </div>
 
         </main>
@@ -337,6 +284,8 @@
                                 <span class="font-mono font-bold tracking-widest text-base">000 111 343</span>
                                 <i class="fa-regular fa-copy opacity-60"></i>
                             </div>
+                            <!-- Added small text for flexibility -->
+                            <p class="text-[10px] text-slate-400 mt-2">ចំនួនទឹកប្រាក់អាចកែប្រែបាន</p>
                         </div>
 
                          <!-- Direct Pay Link -->
@@ -415,20 +364,20 @@
             setTimeout(() => playTone(1600, 'sine', 1), 50);
         }
 
-        // 2. Pouring
+        // 2. Coffee "Pouring"
         function playCoffeeSound() {
             playTone(200, 'triangle', 0.5);
             setTimeout(() => playTone(150, 'triangle', 0.5), 200);
         }
 
-        // 3. Rattle
+        // 3. Ice "Rattle"
         function playIceSound() {
             playTone(800, 'square', 0.1);
             setTimeout(() => playTone(900, 'square', 0.1), 150);
             setTimeout(() => playTone(700, 'square', 0.1), 300);
         }
 
-        // 4. Sizzle (White Noise simulation)
+        // 4. Chicken "Sizzle"
         function playSizzleSound() {
             const bufferSize = audioContext.sampleRate * 1.5;
             const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
@@ -450,65 +399,45 @@
             noise.start();
         }
 
-        // 5. Cha-Ching! (Money Sound)
-        function playCashSound() {
-            playTone(1200, 'sine', 0.1);
-            setTimeout(() => playTone(2000, 'square', 0.4), 100);
-        }
-
         const menuItems = {
             hot: { name: 'Hot Coffee', price: '$1.50', icon: '<i class="fa-solid fa-mug-hot"></i>', emoji: '☕', theme: 'theme-hot' },
             ice: { name: 'Ice Coffee', price: '$2.50', icon: '<i class="fa-solid fa-glass-water"></i>', emoji: '🥤', theme: 'theme-ice' },
             beer: { name: 'Cold Beer', price: '$3.00', icon: '<i class="fa-solid fa-beer-mug-empty"></i>', emoji: '🍺', theme: 'theme-beer' },
-            pizza: { name: 'Pizza / Meal', price: '$10.00', icon: '<i class="fa-solid fa-pizza-slice"></i>', emoji: '🍕', theme: 'theme-pizza' },
-            steak: { name: 'Beef Steak', price: '$15.00', icon: '<i class="fa-solid fa-utensils"></i>', emoji: '🥩', theme: 'theme-steak' },
-            salmon: { name: 'Salmon', price: '$12.00', icon: '<i class="fa-solid fa-fish"></i>', emoji: '🐟', theme: 'theme-salmon' },
-            chicken: { name: 'Roasted Chicken', price: '$8.00', icon: '<i class="fa-solid fa-drumstick-bite"></i>', emoji: '🍗', theme: 'theme-chicken' },
-            bbq: { name: 'BBQ Party', price: '$50.00', icon: '<i class="fa-solid fa-fire-burner"></i>', emoji: '🔥', theme: 'theme-bbq' },
-            lobster: { name: 'King Lobster', price: '$100.00', icon: '<i class="fa-solid fa-shrimp"></i>', emoji: '🦞', theme: 'theme-lobster' }
+            chicken: { name: 'Roasted Chicken', price: '$8.00', icon: '<i class="fa-solid fa-drumstick-bite"></i>', emoji: '🍗', theme: 'theme-chicken' }
         };
 
         let currentSelection = null;
 
         function selectItem(key) {
-            // Resume Audio
+            // Resume Audio Context
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
             currentSelection = menuItems[key];
             
-            // Handle Dark Mode classes
-            const isDark = ['beer', 'steak', 'bbq', 'lobster'].includes(key);
-            if (isDark) document.body.classList.add('dark-mode-text');
-            else document.body.classList.remove('dark-mode-text');
+            // Handle Dark Mode
+            const isDark = (key === 'beer');
+            if (isDark) document.body.classList.add('theme-beer');
+            else document.body.classList.remove('theme-beer');
 
             // Theme Transition
-            document.body.className = "text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern " + (isDark ? 'dark-mode-text ' : '') + menuItems[key].theme;
+            document.body.className = "text-slate-900 min-h-screen flex flex-col transition-colors duration-500 relative bg-grid-pattern " + (isDark ? 'text-slate-100 ' : '') + menuItems[key].theme;
             
             // --- SOUND EFFECTS ---
             if (key === 'beer') playBeerSound();
             else if (key === 'hot') playCoffeeSound();
             else if (key === 'ice') playIceSound();
-            else if (key === 'pizza') playCoffeeSound();
-            else if (['steak', 'salmon', 'chicken', 'bbq'].includes(key)) playSizzleSound();
-            else if (key === 'lobster') playCashSound();
+            else if (key === 'chicken') playSizzleSound();
 
             document.querySelectorAll('.treat-card').forEach(el => el.classList.remove('active', 'ring-2', 'ring-offset-2'));
             const card = document.getElementById(`card-${key}`);
             card.classList.add('active');
             let ringColor = 'ring-slate-400';
-            // Set ring colors based on item
             if(key === 'hot') ringColor = 'ring-orange-500';
-            else if(key === 'ice') ringColor = 'ring-sky-500';
-            else if(key === 'beer') ringColor = 'ring-amber-500';
-            else if(key === 'pizza') ringColor = 'ring-red-500';
-            else if(key === 'steak') ringColor = 'ring-red-800';
-            else if(key === 'salmon') ringColor = 'ring-rose-400';
-            else if(key === 'chicken') ringColor = 'ring-yellow-600';
-            else if(key === 'bbq') ringColor = 'ring-orange-700';
-            else if(key === 'lobster') ringColor = 'ring-rose-700';
-            
+            if(key === 'ice') ringColor = 'ring-sky-500';
+            if(key === 'beer') ringColor = 'ring-amber-500';
+            if(key === 'chicken') ringColor = 'ring-yellow-600';
             card.classList.add('ring-2', 'ring-offset-2', ringColor);
 
             document.getElementById('selected-name').innerText = menuItems[key].name;
